@@ -1,5 +1,5 @@
 ## string-utils
-It is a small lightweight C library that helps in string utilities like searching for a substring, finding the position of substring in a string etc but with a twist. The twist is it gives you the choice of algorithms and almost all the algorithms.
+It is a small lightweight C library that helps in string utilities like searching for a substring, finding the position of substring in a string etc but with added functionalities like choosing algorithms to use from and many more.
 
 **Prototype of `is_substring` function:**
 
