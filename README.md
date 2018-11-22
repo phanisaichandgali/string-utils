@@ -18,7 +18,7 @@ The users need not worry about compatibility here. **Although the same functions
 ## In C++
 **Prototype of `contains` function:**
 
->     std::string str("Some Random String");
+>     String str("Some Random String");
 >     bool is_present = str.contains("ome R", searcher);
 >     Return type: bool
 >     Arg 1: string literal or another string or char array
