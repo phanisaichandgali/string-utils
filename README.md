@@ -1,6 +1,12 @@
-## string-utils
-It is a small lightweight C library that helps in string utilities like searching for a substring, finding the position of substring in a string etc but with added functionalities like choosing algorithms to use from and many more.
+# string-utils
+It is a small lightweight C/C++ library that helps in string utilities like searching for a substring, finding the position of substring in a string etc but with added functionalities like choosing algorithms to use from and many more.
 
+The users need not worry about compatibility here. **Although the same functions can be used both in C/C++ but we are providing seperate apis for C and C++ that are written to take advantage of the language's features.**
+
+
+# Example:  
+
+## In C
 **Prototype of `is_substring` function:**
 
 >     is_substring(haystack, needle, searcher);
@@ -9,8 +15,17 @@ It is a small lightweight C library that helps in string utilities like searchin
 >     Arg 2: const char*
 >     Arg 3: searcher - enumeration of algorithms
 
+## In C++
+**Prototype of `contains` function:**
 
-**List of algorithms provided for searching:**
+>     std::string str("Some Random String");
+>     bool is_present = str.contains("ome R", searcher);
+>     Return type: bool
+>     Arg 1: string literal or another string or char array
+>     Arg 2: searcher - enumeration of algorithms
+
+
+## **List of algorithms provided for searching:**
 
 >     NAIVE,                 
 >     RABIN_KARP,                            
@@ -25,3 +40,4 @@ It is a small lightweight C library that helps in string utilities like searchin
 >     SET_BOM
 
    
+
