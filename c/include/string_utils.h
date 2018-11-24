@@ -19,46 +19,98 @@ enum Searcher_t {
 
 typedef enum Searcher_t Searcher;
 
+/* Although there is an overhead of an extra element 
+ * at any given point but the advantage of use in 
+ * apis is more than that */
+struct SearcherResult_t {
+  bool is_present;
+  int32_t pos;
+};
+
+typedef struct SearcherResult_t SearcherResult;
+
 /* helper function to get the size of the string */
 uint32_t get_size(const char* str);
 
 /* naive search - O(nm) */
-bool naive_searcher(const char* haystack, const char* needle);
+SearcherResult 
+naive_searcher(const char* haystack, uint32_t haystack_size, 
+               const char* needle, uint32_t needle_size, 
+               uint32_t searcher_pos);
 
 /* rabin karp - hash based search - O(n+m) */
-bool rabin_karp_searcher(const char* haystack, const char* needle);
+SearcherResult 
+rabin_karp_searcher(const char* haystack, uint32_t haystack_size, 
+                    const char* needle, uint32_t needle_size, 
+                    uint32_t searcher_pos);
 
 /* kmp - uses past match data - O(n) */
-bool knuth_morris_prat_searcher(const char* haystack, const char* needle);
+SearcherResult 
+knuth_morris_prat_searcher(const char* haystack, uint32_t haystack_size, 
+                           const char* needle, uint32_t needle_size, 
+                           uint32_t searcher_pos);
 
 /* aho corasick - dictionary matching - O(m+n+z), z = match count */
-bool aho_corasick_searcher(const char* haystack, const char* needle);
+SearcherResult 
+aho_corasick_searcher(const char* haystack, uint32_t haystack_size, 
+                      const char* needle, uint32_t needle_size, 
+                      uint32_t searcher_pos);
 
 /* boyre moore - bad character - O(n+m)*/
-bool boyre_moore_searcher(const char* haystack, const char* needle);
+SearcherResult 
+boyre_moore_searcher(const char* haystack, uint32_t haystack_size, 
+                     const char* needle, uint32_t needle_size, 
+                     uint32_t searcher_pos);
 
 /**/
-bool bitap_searcher(const char* haystack, const char* needle);
+SearcherResult 
+bitap_searcher(const char* haystack, uint32_t haystack_size, 
+               const char* needle, uint32_t needle_size, 
+               uint32_t searcher_pos);
 
 /**/
-bool commentz_walter_searcher(const char* haystack, const char* needle);
+SearcherResult 
+commentz_walter_searcher(const char* haystack, uint32_t haystack_size, 
+                         const char* needle, uint32_t needle_size, 
+                         uint32_t searcher_pos);
 
 /**/
-bool two_way_searcher(const char* haystack, const char* needle);
+SearcherResult 
+two_way_searcher(const char* haystack, uint32_t haystack_size, 
+                 const char* needle, uint32_t needle_size, 
+                 uint32_t searcher_pos);
 
 /**/
-bool bndm_searcher(const char* haystack, const char* needle);
+SearcherResult 
+bndm_searcher(const char* haystack, uint32_t haystack_size, const char* needle,
+              uint32_t needle_size, uint32_t searcher_pos);
 
 /**/
-bool bom_searcher(const char* haystack, const char* needle);
+SearcherResult 
+bom_searcher(const char* haystack, uint32_t haystack_size, const char* needle, 
+             uint32_t needle_size, uint32_t searcher_pos);
 
 /**/
-bool set_bom_searcher(const char* haystack, const char* needle);
+SearcherResult 
+set_bom_searcher(const char* haystack, uint32_t haystack_size, 
+                 const char* needle, uint32_t needle_size, 
+                 uint32_t searcher_pos);
+
+
+/* Driver function to pick and run algorithms */
+SearcherResult search(const char* haystack, const char* needle,
+                      uint32_t searcher_pos, const Searcher searcher);
 
 /**
- * decl: has_substring(haystack, needle, algorithm);
+ * decl: is_substring(haystack, needle, searcher);
  */
-bool is_substring(const char* haystack, 
-                  const char* needle,
-                  const Searcher searcher);
+bool is_substring(const char* haystack, const char* needle,
+                  uint32_t searcher_pos, const Searcher searcher);
+
+/**
+ * decl: find_pos(haystack, needle, searcher_pos, searcher);
+ */
+int32_t find_pos(const char* needle, const char* haystack, 
+                  uint32_t searcher_pos, const Searcher searcher);
+
 #endif // __STRING_UTILS__

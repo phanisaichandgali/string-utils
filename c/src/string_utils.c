@@ -5,7 +5,123 @@
 #include <stdint.h>
 #include <string_utils.h>
 
-uint32_t get_size(const char* str)
+SearcherResult
+naive_searcher(const char* haystack, uint32_t haystack_size, 
+               const char* needle, uint32_t needle_size, uint32_t searcher_pos)
+{ 
+  SearcherResult searcher_result = {false, NPOS};
+
+  uint8_t mismatch = false;
+  int32_t pos = NPOS;
+  for (uint32_t i = searcher_pos; i < haystack_size; i++) {
+    pos = i;
+    for (uint32_t j = 0; j < needle_size; j++) {
+      if (haystack[i] != needle[j]) {
+        mismatch = true;
+        break;
+      }
+      i++;
+    }
+    if (mismatch == false) {
+      searcher_result.is_present = true;
+      searcher_result.pos = pos;
+    } else {
+      mismatch = false;
+    }
+  }
+
+  return searcher_result;
+}
+
+SearcherResult 
+rabin_karp_searcher(const char* haystack, uint32_t haystack_size, 
+                    const char* needle, uint32_t needle_size, 
+                    uint32_t searcher_pos) 
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+knuth_morris_prat_searcher(const char* haystack, uint32_t haystack_size, 
+                           const char* needle, uint32_t needle_size, 
+                           uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult 
+aho_corasick_searcher(const char* haystack, uint32_t haystack_size, 
+                      const char* needle, uint32_t needle_size, 
+                      uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+boyre_moore_searcher(const char* haystack, uint32_t haystack_size, 
+                     const char* needle, uint32_t needle_size, 
+                     uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+bitap_searcher(const char* haystack, uint32_t haystack_size, 
+               const char* needle, uint32_t needle_size, uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+commentz_walter_searcher(const char* haystack, uint32_t haystack_size, 
+                         const char* needle, uint32_t needle_size, 
+                         uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+two_way_searcher(const char* haystack, uint32_t haystack_size, 
+                 const char* needle, uint32_t needle_size, 
+                 uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+bndm_searcher(const char* haystack, uint32_t haystack_size, 
+              const char* needle, uint32_t needle_size, uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+bom_searcher(const char* haystack, uint32_t haystack_size, const char* needle,
+             uint32_t needle_size, uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+SearcherResult
+set_bom_searcher(const char* haystack, uint32_t haystack_size, 
+                 const char* needle, uint32_t needle_size, 
+                 uint32_t searcher_pos)
+{
+  SearcherResult searcher_result = {false, NPOS};
+  return searcher_result;
+}
+
+uint32_t 
+get_size(const char* str)
 {
   uint32_t str_size = 0;
   if (str != NULL) {
@@ -16,145 +132,91 @@ uint32_t get_size(const char* str)
   return str_size;
 }
 
-bool
-naive_searcher(const char* haystack, const char* needle)
+SearcherResult 
+search(const char* haystack, const char* needle, uint32_t searcher_pos, 
+       const Searcher searcher)
 {
-  bool is_present = false;
-  if (haystack == NULL && needle == NULL) {
-    return is_present;
+  SearcherResult searcher_result = {false, NPOS}; /* default intialize to not found */
+  if (haystack == NULL || needle == NULL) {
+    return searcher_result;
   }
 
   uint32_t haystack_size = get_size(haystack);
+  if (searcher_pos > 0) {
+    haystack_size = haystack_size - searcher_pos + 1;
+  }
   uint32_t needle_size = get_size(needle);
-  
-  /* substring should never be longer than string itself */
+
   if (haystack_size < needle_size) {
-    return is_present;
+    return searcher_result;
   }
   
-  uint8_t mismatch = false;
-  for (int i = 0; i < haystack_size; i++) {
-    for (int j = 0; j < needle_size; j++) {
-      if (haystack[i] != needle[j]) {
-        mismatch = true;
-        break;
-      }
-      i++;
-    }
-    if (mismatch == false) {
-      is_present = true;
-    } else {
-      mismatch = false;
-    }
-  }
-
-  return is_present;
-}
-
-bool 
-rabin_karp_searcher(const char* haystack, const char* needle) 
-{
-  return true;
-}
-
-bool
-knuth_morris_prat_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool 
-aho_corasick_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-boyre_moore_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-bitap_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-commentz_walter_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-two_way_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-bndm_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-bom_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool
-set_bom_searcher(const char* haystack, const char* needle)
-{
-  return true;
-}
-
-bool 
-is_substring(const char* haystack,
-             const char* needle,
-             const Searcher searcher)
-{
-
-  bool is_substring_present = false;
   switch(searcher) {
     case NAIVE: 
-      is_substring_present = naive_searcher(haystack, needle);
+      searcher_result = naive_searcher(haystack, haystack_size, needle, 
+                                       needle_size, searcher_pos);
       break;
     case RABIN_KARP: 
-      is_substring_present = rabin_karp_searcher(haystack, needle);
+      searcher_result = rabin_karp_searcher(haystack, haystack_size, needle, 
+                                            needle_size, searcher_pos);
       break;
     case KNUTH_MORRIS_PRAT: 
-      is_substring_present = knuth_morris_prat_searcher(haystack, needle);
+      searcher_result = knuth_morris_prat_searcher(haystack, haystack_size, needle, 
+                                                  needle_size, searcher_pos);
       break;
     case AHO_CORASICK: 
-      is_substring_present = aho_corasick_searcher(haystack, needle);
+      searcher_result = aho_corasick_searcher(haystack, haystack_size, needle, 
+                                              needle_size, searcher_pos);
       break;
     case BOYRE_MOORE: 
-      is_substring_present = boyre_moore_searcher(haystack, needle);
+      searcher_result = boyre_moore_searcher(haystack, haystack_size, needle, 
+                                             needle_size, searcher_pos);
       break;
     case BITAP:
-      is_substring_present = bitap_searcher(haystack, needle);
+      searcher_result = bitap_searcher(haystack, haystack_size, needle, 
+                                       needle_size, searcher_pos);
       break;
     case COMMENTZ_WALTER:
-      is_substring_present = commentz_walter_searcher(haystack, needle);
+      searcher_result = commentz_walter_searcher(haystack, haystack_size, 
+                                                 needle, needle_size, 
+                                                 searcher_pos);
       break;
     case TWO_WAY:
-      is_substring_present = two_way_searcher(haystack, needle);
+      searcher_result = two_way_searcher(haystack, haystack_size, needle, 
+                                         needle_size, searcher_pos);
       break;
     case BNDM:
-      is_substring_present = bndm_searcher(haystack, needle);
+      searcher_result = bndm_searcher(haystack, haystack_size, needle, 
+                                      needle_size, searcher_pos);
       break;
     case BOM:
-      is_substring_present = bom_searcher(haystack, needle);
+      searcher_result = bom_searcher(haystack, haystack_size, needle, 
+                                     needle_size, searcher_pos);
       break;
     case SET_BOM: 
-      is_substring_present = set_bom_searcher(haystack, needle);
+      searcher_result = set_bom_searcher(haystack, haystack_size, needle, 
+                                         needle_size, searcher_pos);
       break;
-  }  
-  
-  return is_substring_present;
+  } 
+
+  return searcher_result;
 }
 
+bool 
+is_substring(const char* haystack, const char* needle, uint32_t searcher_pos,
+             Searcher searcher)
+{
+  SearcherResult searcher_result = search(haystack, needle, searcher_pos,
+                                          searcher);
+  return searcher_result.is_present;
+}
+
+int32_t
+find_pos(const char* haystack, const char* needle, uint32_t searcher_pos,
+         Searcher searcher)
+{
+  SearcherResult searcher_result = search(haystack, needle, searcher_pos,
+                                          searcher);
+  return searcher_result.pos;
+}
 
